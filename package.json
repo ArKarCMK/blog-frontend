@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "naive-ui": "^2.38.2",
+    "sass": "^1.77.2",
     "unplugin-auto-import": "^0.17.6",
     "unplugin-vue-components": "^0.27.0"
   }
