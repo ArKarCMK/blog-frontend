@@ -3,9 +3,13 @@
     <div class="sub-container">
       <div class="login">Login</div>
       <div class="email">Email</div>
-      <n-input v-model:value="email" type="text" placeholder="Email" />
+      <n-input v-model:value="form.email" type="text" placeholder="Email" />
       <div class="password">Password</div>
-      <n-input v-model:value="value" type="text" placeholder="Password" />
+      <n-input
+        v-model:value="form.password"
+        type="text"
+        placeholder="Password"
+      />
       <div class="wrap-button">
         <n-button @click="handleClick" class="loginBtn" type="primary" tertiary>
           Login
@@ -16,11 +20,23 @@
 </template>
 
 <script setup>
-const email = ref("");
-const password = ref("");
+import { useAuthStore } from "../../stores/useAuthStore";
+const form = ref({
+  email: "",
+  password: "",
+});
 
-const handleClick = () => {
-  console.log("login.value", email);
+const auth = useAuthStore();
+
+const handleClick = async () => {
+  if (auth.isLoggedIn) {
+    return navigateTo("/");
+  }
+  const { error } = await auth.login(form.value);
+  if (!error) {
+    return navigateTo("/");
+  }
+  console.log("err", error);
 };
 </script>
 

@@ -6,7 +6,8 @@ import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 export default defineNuxtConfig({
   ssr: false,
   devtools: { enabled: true },
-  modules: ["nuxtjs-naive-ui"],
+  modules: ["nuxtjs-naive-ui", "@pinia/nuxt"],
+
   vite: {
     plugins: [
       AutoImport({

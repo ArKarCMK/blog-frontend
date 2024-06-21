@@ -4,16 +4,24 @@
       <div class="login">Register</div>
 
       <div class="title">Name</div>
-      <n-input v-model:value="name" type="text" placeholder="Name" />
+      <n-input v-model:value="form.name" type="text" placeholder="Name" />
 
       <div class="title">Email</div>
-      <n-input v-model:value="email" type="text" placeholder="Email" />
+      <n-input v-model:value="form.email" type="text" placeholder="Email" />
 
       <div class="title">Password</div>
-      <n-input v-model:value="value" type="text" placeholder="Password" />
+      <n-input
+        v-model:value="form.password"
+        type="text"
+        placeholder="Password"
+      />
 
       <div class="title">Please Enter Your Password Again</div>
-      <n-input v-model:value="value" type="text" placeholder="Password" />
+      <n-input
+        v-model:value="form.password_confirmation"
+        type="text"
+        placeholder="Password"
+      />
 
       <div class="wrap-button">
         <n-button
@@ -30,12 +38,27 @@
 </template>
 
 <script setup>
-const email = ref("");
-const password = ref("");
+// import axios from "axios";
 
-const handleClick = () => {
-  console.log("login.value", email);
-};
+const form = ref({
+  email: "",
+  password: "",
+  name: "",
+  password_confirmation: "",
+});
+const auth = useAuthStore();
+
+// const handleClick = async () => {
+//   if (auth.isLoggedIn) {
+//     return navigateTo("/");
+//   }
+//   const { error } = await auth.register(form.value);
+//   console.log("success");
+//   if (!error) {
+//     return navigateTo("/");
+//   }
+//   console.log("err", error);
+// };
 </script>
 
 <style lang="scss">
