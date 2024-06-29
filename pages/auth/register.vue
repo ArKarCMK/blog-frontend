@@ -48,17 +48,18 @@ const form = ref({
 });
 const auth = useAuthStore();
 
-// const handleClick = async () => {
-//   if (auth.isLoggedIn) {
-//     return navigateTo("/");
-//   }
-//   const { error } = await auth.register(form.value);
-//   console.log("success");
-//   if (!error) {
-//     return navigateTo("/");
-//   }
-//   console.log("err", error);
-// };
+const handleClick = async () => {
+  // if (auth.isLoggedIn) {
+  //   return navigateTo("/");
+  // }
+  const { error } = await auth.register(form.value);
+  console.log("success", form.value);
+  if (!error) {
+    // return navigateTo("/");
+    console.log("error", error);
+  }
+  console.log("err", error);
+};
 </script>
 
 <style lang="scss">
