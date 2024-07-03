@@ -1,5 +1,8 @@
 <template>
-  <div>It's index</div>
+  <div>
+    <navbar />
+  </div>
+  <!-- <div>It's index</div> -->
 </template>
 
 <script setup>
@@ -8,7 +11,7 @@
 const router = useRouter();
 
 onMounted(() => {
-  router.push("auth/login");
+  // router.push("auth/login");
 });
 </script>
 
