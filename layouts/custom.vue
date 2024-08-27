@@ -1,10 +1,15 @@
 <template>
-  <div>
+  <div class="container">
     <navbar />
     <NuxtPage />
+    <Footer />
   </div>
 </template>
 
 <script setup></script>
 
-<style></style>
+<style>
+.container {
+  /* padding: 3px; */
+}
+</style>
