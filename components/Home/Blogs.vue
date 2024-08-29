@@ -26,7 +26,7 @@
               </p>
             </div>
             <div class="button">
-              <n-button tertiary>Read More</n-button>
+              <n-button tertiary class="btn">Read More</n-button>
             </div>
           </div>
         </n-grid-item>
@@ -54,7 +54,7 @@
               </p>
             </div>
             <div class="button">
-              <n-button tertiary>Read More</n-button>
+              <n-button tertiary class="btn">Read More</n-button>
             </div>
           </div>
         </n-grid-item>
@@ -82,7 +82,7 @@
               </p>
             </div>
             <div class="button">
-              <n-button tertiary>Read More</n-button>
+              <n-button tertiary class="btn">Read More</n-button>
             </div>
           </div>
         </n-grid-item>
@@ -103,6 +103,10 @@
     .button {
       display: flex;
       justify-content: space-between;
+      .btn {
+        background: #2c2c2c;
+        color: #fff;
+      }
     }
   }
 

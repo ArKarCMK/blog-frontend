@@ -20,11 +20,8 @@ definePageMeta({
 
 <style lang="scss" scoped>
 .container {
-  background: #f1f1f1;
   .cover-img {
     margin-top: 10px;
-  }
-  .popular-blogs {
   }
   .blogs {
     margin-top: 10px;

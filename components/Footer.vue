@@ -11,9 +11,9 @@
         <div class="navigation">
           <div class="first-row">
             <div class="first-column">
-              <nuxt-link class="link" to="#"> Home </nuxt-link>
-              <nuxt-link class="link" to="#"> Blogs </nuxt-link>
-              <nuxt-link class="link" to="#"> About </nuxt-link>
+              <nuxt-link class="link" to="/home"> Home </nuxt-link>
+              <nuxt-link class="link" to="/blogs"> Blogs </nuxt-link>
+              <nuxt-link class="link" to="/about"> About </nuxt-link>
             </div>
             <n-divider vertical class="divider" />
             <div class="second-column">
@@ -88,6 +88,13 @@
           font-weight: bold;
           color: #fff;
           margin-bottom: 5px;
+          &:hover {
+            color: #11bad3;
+          }
+
+          &.router-link-active {
+            color: #11bad3;
+          }
         }
       }
       .divider {
