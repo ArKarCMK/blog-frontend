@@ -7,6 +7,9 @@ export default defineNuxtConfig({
   ssr: false,
   devtools: { enabled: true },
   modules: ["nuxtjs-naive-ui", "@pinia/nuxt"],
+  // ui: {
+  //   safelistColors: ["orange"],
+  // },
 
   vite: {
     plugins: [

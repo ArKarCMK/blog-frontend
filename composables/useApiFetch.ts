@@ -1,5 +1,5 @@
-export const useApiFetch = (path, options) => {
-  let headers = {
+export const useApiFetch = (path: string, options: any) => {
+  let headers: Record<string, string> = {
     accept: "application/json",
     referer: "http://localhost:3000",
   };

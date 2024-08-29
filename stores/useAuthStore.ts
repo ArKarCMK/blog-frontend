@@ -2,8 +2,22 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 // import { useApiFetch } from "../composables/useApiFetch";
 
+interface User {
+  id?: number;
+  name: string;
+  email: string;
+  // Add other user properties as needed
+}
+
+interface Credentials {
+  email: string;
+  password: string;
+  name: string;
+  password_confirmation: string;
+}
+
 export const useAuthStore = defineStore("auth", () => {
-  const user = ref(null);
+  const user = ref<User | null>(null);
   const isLoggedIn = computed(() => !!user.value);
 
   const fetchUser = async () => {
@@ -12,7 +26,7 @@ export const useAuthStore = defineStore("auth", () => {
     user.value = data.value;
   };
 
-  const login = async (credentials) => {
+  const login = async (credentials: Credentials) => {
     await useApiFetch("/sanctum/csrf-cookie");
     await useApiFetch("/login", {
       method: "POST",
@@ -24,16 +38,14 @@ export const useAuthStore = defineStore("auth", () => {
     return login;
   };
 
-  // const register = async (credentials) => {
-  //   await useApiFetch("/sanctum/csrf-cookie");
-  //   await useApiFetch("/register", {
-  //     method: "POST",
-  //     body: credentials,
-  //   });
+  const register = async (credentials: Credentials) => {
+    await useApiFetch("/sanctum/csrf-cookie");
+    await useApiFetch("/register", {
+      method: "POST",
+      body: credentials,
+    });
 
-  //   await fetchUser();
-
-  //   return register;
-  // };
-  return { user, isLoggedIn, fetchUser, login };
+    return register;
+  };
+  return { user, isLoggedIn, fetchUser, login, register };
 });
