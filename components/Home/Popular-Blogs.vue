@@ -15,18 +15,8 @@
               </n-carousel>
             </div>
             <div class="body">
-              <n-h1>The Popular Article</n-h1>
-              <n-p
-                >One morning, when Gregor Samsa woke from troubled dreams, he
-                found himself transformed in his bed into a horrible vermin. He
-                lay on his armour-like back, and if he lifted his head a little
-                he could see his brown belly, slightly domed and divided by
-                arches into stiff sections. The bedding was hardly able to cover
-                it and seemed ready to slide off any moment. His many legs,
-                pitifully thin compared with the size of the rest of him, waved
-                about helplessly as he looked. "What's happened to
-                me?".....</n-p
-              >
+              <n-h2>{{ blog.title }}</n-h2>
+              <n-p>{{ fixedBlog.fixedBody }}</n-p>
             </div>
             <div class="btn">
               <n-button>
@@ -43,7 +33,34 @@
 </template>
 
 <script setup>
+import axios from "axios";
 import { CaretForwardOutline } from "@vicons/ionicons5";
+
+const config = useRuntimeConfig();
+
+const blog = ref({});
+
+onMounted(async () => {
+  await fetchBlog();
+});
+
+const fixedBlog = computed(() => {
+  const blogBody = blog.value.body || "";
+  return {
+    ...blog.value,
+    fixedBody:
+      blogBody.length > 300 ? blogBody.substring(0, 300) + " ...." : blogBody,
+  };
+});
+
+const fetchBlog = async () => {
+  try {
+    const response = await axios.get(`${config.public.baseURL}/blogs/popular`);
+    blog.value = response.data;
+  } catch (error) {
+    console.log("Error in the popular blogs", error);
+  }
+};
 </script>
 
 <style lang="scss" scoped>
