@@ -7,7 +7,7 @@
       <HomePopular-Blogs />
     </div>
     <div class="blogs">
-      <HomeBlogs />
+      <HomeBlogs :limit="6" />
     </div>
   </div>
 </template>

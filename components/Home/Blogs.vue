@@ -2,9 +2,9 @@
   <div class="blog-container">
     <n-card title="Blogs" size="medium">
       <n-grid cols="1 s:2 m:3" responsive="screen" x-gap="12">
-        <n-grid-item v-for="blog in fixedBlogs">
-          <div class="blog">
-            <n-card style="margin-bottom: 10px" hoverable>
+        <n-grid-item v-for="blog in fixedBlogs" :key="blog.id">
+          <n-card style="margin-bottom: 10px" hoverable>
+            <div class="blog">
               <div class="image">
                 <img
                   src="../../assets/image.png"
@@ -22,8 +22,8 @@
               <div class="button">
                 <n-button tertiary class="btn">Read More</n-button>
               </div>
-            </n-card>
-          </div>
+            </div>
+          </n-card>
         </n-grid-item>
       </n-grid>
     </n-card>
@@ -36,20 +36,28 @@ import { onMounted, computed } from "vue";
 const config = useRuntimeConfig();
 const blogs = ref([]);
 
+const props = defineProps({
+  limit: {
+    type: Number,
+    default: null,
+  },
+});
 onMounted(async () => {
   await fetchBlogs();
 });
 
 const fixedBlogs = computed(() => {
-  return blogs.value.map((blog) => {
-    return {
-      ...blog,
-      limtedBody:
-        blog.body.length > 100
-          ? blog.body.substring(0, 100) + " ..."
-          : blog.body,
-    };
-  });
+  return blogs.value
+    .map((blog) => {
+      return {
+        ...blog,
+        limtedBody:
+          blog.body.length > 100
+            ? blog.body.substring(0, 100) + " ..."
+            : blog.body,
+      };
+    })
+    .slice(0, props.limit ? props.limit : blogs.value.length);
 });
 
 const fetchBlogs = async () => {
@@ -58,7 +66,7 @@ const fetchBlogs = async () => {
 
     blogs.value = response.data;
   } catch (error) {
-    console.log("Error in getching blogs", error);
+    console.log("Error in fetching blogs", error);
   }
 };
 </script>
