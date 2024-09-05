@@ -7,12 +7,13 @@
       <HomePopular-Blogs />
     </div>
     <div class="blogs">
-      <HomeBlogs />
+      <HomeBlogs :limit="6" />
     </div>
   </div>
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 definePageMeta({
   layout: "custom",
 });

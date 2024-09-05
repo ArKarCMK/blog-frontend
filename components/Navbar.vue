@@ -33,10 +33,11 @@
 <style lang="scss" scoped>
 .container {
   border-radius: 20px;
+  background-color: #dbe1e3;
   border: 2px solid #000;
   height: 60px;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 10px;
   width: calc(100vw - 100px);
   font-size: 20px;
   box-shadow: 0px 5px 20px 1px #d6d4d4;
