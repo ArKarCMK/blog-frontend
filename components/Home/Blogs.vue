@@ -3,6 +3,7 @@
     <n-card title="Blogs" size="medium">
       <n-grid cols="1 s:2 m:3" responsive="screen" x-gap="12">
         <n-grid-item v-for="blog in fixedBlogs" :key="blog.id">
+          <!-- <div v-for="blog in fixedBlogs" :key="blog.id"> -->
           <n-card style="margin-bottom: 10px" hoverable>
             <div class="blog">
               <div class="image">
@@ -20,10 +21,16 @@
                 </p>
               </div>
               <div class="button">
-                <n-button tertiary class="btn">Read More</n-button>
+                <n-button
+                  @click="$router.push(`/blogs/${blog.id}`)"
+                  tertiary
+                  class="btn"
+                  >Read More</n-button
+                >
               </div>
             </div>
           </n-card>
+          <!-- </div> -->
         </n-grid-item>
       </n-grid>
     </n-card>
@@ -91,7 +98,6 @@ const fetchBlogs = async () => {
       padding: 0 10px;
     }
     .button {
-      background: red;
       display: flex;
       justify-content: space-between;
       display: flex;
@@ -99,10 +105,9 @@ const fetchBlogs = async () => {
       bottom: 0;
       margin: 0 0 5px 10px;
 
-      background: red;
       .btn {
-        background: #2c2c2c;
-        color: #fff;
+        background: $btn-bg;
+        color: $btn-text;
       }
     }
   }

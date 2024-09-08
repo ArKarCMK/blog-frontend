@@ -40,6 +40,10 @@
 <script setup>
 // import axios from "axios";
 
+definePageMeta({
+  middleware: "guest",
+});
+
 const form = ref({
   email: "",
   password: "",
@@ -49,16 +53,16 @@ const form = ref({
 const auth = useAuthStore();
 
 const handleClick = async () => {
-  // if (auth.isLoggedIn) {
-  //   return navigateTo("/");
-  // }
-  const { error } = await auth.register(form.value);
-  console.log("success", form.value);
-  if (!error) {
-    // return navigateTo("/");
-    console.log("error", error);
+  try {
+    await auth.register(form.value);
+    if (auth.isLoggedIn) {
+      window.location.href = "/home";
+    } else {
+      console.log("Error in registration");
+    }
+  } catch (error) {
+    console.log("Error during registration", error);
   }
-  console.log("err", error);
 };
 </script>
 
