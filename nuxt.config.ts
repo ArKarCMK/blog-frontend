@@ -10,6 +10,9 @@ export default defineNuxtConfig({
   // ui: {
   //   safelistColors: ["orange"],
   // },
+  css: [
+    // "@/assets/styles/variable.scss", // Ensure this path is correct
+  ],
 
   vite: {
     plugins: [
@@ -29,6 +32,13 @@ export default defineNuxtConfig({
         resolvers: [NaiveUiResolver()],
       }),
     ],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "@/assets/styles/variable.scss";`, // Ensure this path is correct
+        },
+      },
+    },
   },
 
   runtimeConfig: {

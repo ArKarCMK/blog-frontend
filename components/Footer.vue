@@ -89,11 +89,11 @@
           color: #fff;
           margin-bottom: 5px;
           &:hover {
-            color: #11bad3;
+            color: $link-hover;
           }
 
           &.router-link-active {
-            color: #11bad3;
+            color: $link-hover;
           }
         }
       }

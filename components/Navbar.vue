@@ -12,7 +12,7 @@
         <nuxt-link class="link" to="/about">About</nuxt-link>
       </div>
     </div>
-    <div class="auth-column">
+    <div class="auth-column" v-if="!auth.isLoggedIn">
       <n-button
         strong
         secondary
@@ -25,10 +25,25 @@
         Register
       </n-button>
     </div>
+    <div class="auth-column">
+      <img
+        src="https://randomuser.me/api/portraits/med/men/33.jpg"
+        alt="profile"
+        width="50"
+        height="50"
+        class="img"
+      />
+
+      <div class="name">
+        {{ auth.user.name }}
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const auth = useAuthStore();
+</script>
 
 <style lang="scss" scoped>
 .container {
@@ -64,11 +79,11 @@
         color: #000;
         transition: color 0.2s ease-out;
         &:hover {
-          color: #11bad3;
+          color: $link-hover;
         }
 
         &.router-link-active {
-          color: #11bad3;
+          color: $link-hover;
         }
       }
     }
@@ -77,15 +92,25 @@
     display: flex;
     height: 60px;
     align-items: center;
+    justify-content: center;
     .login {
-      background: #2c2c2c;
-      color: #fff;
+      background: $btn-bg;
+      color: $btn-text;
       margin-right: 10px;
     }
     .register {
       color: #2c2c2c;
       margin-right: 10px;
-      border: 1px solid #2c2c2c;
+      border: 1px solid $btn-bg;
+    }
+    .img {
+      font-size: 16px;
+      border-radius: 25px;
+    }
+    .name {
+      margin: 0 20px 0 10px;
+      font-size: 16px;
+      font-weight: bold;
     }
   }
 }

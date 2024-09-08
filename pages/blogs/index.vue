@@ -64,8 +64,8 @@ const options = [
         margin: 30px 5px 20px 50px;
       }
       .btn {
-        background-color: #2c2c2c;
-        color: #fff;
+        background-color: $btn-bg;
+        color: $btn-text;
       }
     }
     .filter {

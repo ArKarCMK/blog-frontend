@@ -21,22 +21,30 @@
 
 <script setup>
 import { useAuthStore } from "../../stores/useAuthStore";
+
+definePageMeta({
+  middleware: "guest",
+});
 const form = ref({
   email: "",
   password: "",
 });
 
 const auth = useAuthStore();
+const router = useRouter();
 
 const handleClick = async () => {
-  if (auth.isLoggedIn) {
-    return navigateTo("/");
+  try {
+    await auth.login(form.value);
+
+    if (auth.isLoggedIn) {
+      window.location.href = "/home";
+    } else {
+      console.log("Email or password incorrect");
+    }
+  } catch (error) {
+    console.log("Error during login:", error);
   }
-  const { error } = await auth.login(form.value);
-  if (!error) {
-    return navigateTo("/");
-  }
-  console.log("err", error);
 };
 </script>
 
