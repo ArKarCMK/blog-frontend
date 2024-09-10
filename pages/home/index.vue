@@ -21,7 +21,7 @@
 import { onMounted } from "vue";
 definePageMeta({
   layout: "custom",
-  middleware: "auth",
+  middleware: "guest",
 });
 </script>
 

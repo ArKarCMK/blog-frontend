@@ -25,7 +25,7 @@
         Register
       </n-button>
     </div>
-    <div class="auth-column">
+    <div class="auth-column" v-if="auth.isLoggedIn">
       <img
         src="https://randomuser.me/api/portraits/med/men/33.jpg"
         alt="profile"

@@ -37,12 +37,10 @@
   </div>
 </template>
 <script setup>
-import axios from "axios";
 import { onMounted, computed } from "vue";
+import useFetchBlogs from "../../composables/useFetchBlogs";
 
-const config = useRuntimeConfig();
-const blogs = ref([]);
-
+const { blogs, fetchBlogs } = useFetchBlogs();
 const props = defineProps({
   limit: {
     type: Number,
@@ -66,16 +64,6 @@ const fixedBlogs = computed(() => {
     })
     .slice(0, props.limit ? props.limit : blogs.value.length);
 });
-
-const fetchBlogs = async () => {
-  try {
-    const response = await axios.get(`${config.public.baseURL}/blogs/all`);
-
-    blogs.value = response.data;
-  } catch (error) {
-    console.log("Error in fetching blogs", error);
-  }
-};
 </script>
 
 <style lang="scss" scoped>
