@@ -17,7 +17,9 @@
     </div>
     <div class="created-at">
       <div class="title">Published on</div>
-      <div v-if="blog.created_at" class="date">{{ blog.created_at }}</div>
+      <div v-if="blog.created_at" class="date">
+        {{ formatTime }}
+      </div>
     </div>
     <div class="social">
       <div class="caption">Share this post</div>
@@ -40,6 +42,8 @@
 </template>
 
 <script setup>
+import { formatDistanceToNow } from "date-fns";
+
 const props = defineProps({
   blog: {
     type: Object,
@@ -48,6 +52,15 @@ const props = defineProps({
 if (props.blog) {
   console.log("Props value from the owner component", props.blog);
 }
+const formatTimeAgo = (dateString) => {
+  return formatDistanceToNow(new Date(dateString), { addSuffix: true });
+};
+
+const formatTime = computed(() => {
+  return formatDistanceToNow(new Date(props.blog.created_at), {
+    addSuffix: true,
+  });
+});
 </script>
 
 <style lang="scss" scoped>

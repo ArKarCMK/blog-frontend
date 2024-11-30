@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h4>Comments</h4>
-    <n-card class="card" v-for="test in testArr" :key="test.id">
+    <n-card class="card" v-for="comment in comments" :key="comment.id">
       <div class="first-row">
         <div class="user">
           <img
@@ -11,19 +11,41 @@
             height="50"
             class="profile"
           />
-          <div class="name">Albert Steward</div>
+          <div class="name">{{ comment.user.name }}</div>
         </div>
-        <div class="time">2 hours ago</div>
+        <div class="time">{{ formatTimeAgo(comment.created_at) }}</div>
       </div>
       <div class="second-row">
-        <div>This is some article</div>
+        <div>{{ comment.body }}</div>
       </div>
     </n-card>
   </div>
 </template>
 
 <script setup>
-const testArr = [{ id: 1 }, { id: 2 }, { id: 3 }];
+import { formatDistanceToNow } from "date-fns";
+
+const props = defineProps({
+  blog: Object,
+});
+
+const { comments, fetchComments } = useFetchComments(props.blog.id);
+watch(
+  () => props.blog,
+  (newBlog) => {
+    if (newBlog) {
+      fetchComments(newBlog.id);
+    }
+  }
+);
+
+onMounted(async () => {
+  await fetchComments();
+});
+
+const formatTimeAgo = (dateString) => {
+  return formatDistanceToNow(new Date(dateString), { addSuffix: true });
+};
 </script>
 
 <style lang="scss" scoped>

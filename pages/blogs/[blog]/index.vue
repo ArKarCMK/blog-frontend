@@ -29,7 +29,7 @@
         <BlogContent :blog="blog" />
       </div>
       <div>
-        <BlogComment />
+        <BlogComment :blog="blog" />
       </div>
     </div>
   </div>
