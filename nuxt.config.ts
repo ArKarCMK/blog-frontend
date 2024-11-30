@@ -13,6 +13,9 @@ export default defineNuxtConfig({
   css: [
     // "@/assets/styles/variable.scss", // Ensure this path is correct
   ],
+  devServer: {
+    port: 3001,
+  },
 
   vite: {
     plugins: [
