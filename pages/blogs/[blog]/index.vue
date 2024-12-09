@@ -11,14 +11,23 @@
         </n-button>
       </div>
 
-      <div class="user">
+      <div class="user" v-if="auth.isLoggedIn">
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVA_HrQLjkHiJ2Ag5RGuwbFeDKRLfldnDasw&s"
           alt="profile"
           width="50"
           height="50"
         />
-        <div>John Doe</div>
+        <div>{{ auth.user.name }}</div>
+      </div>
+      <div class="user" v-if="!auth.isLoggedIn">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVA_HrQLjkHiJ2Ag5RGuwbFeDKRLfldnDasw&s"
+          alt="profile"
+          width="50"
+          height="50"
+        />
+        <div>"Guest User"</div>
       </div>
     </div>
     <div class="blog">
@@ -41,8 +50,8 @@ import useFetchBlog from "@/composables/useFetchBlog";
 
 const route = useRoute();
 const { blog, fetchBlog } = useFetchBlog(route.params.blog);
-
-console.log("This is the single blog", blog);
+const auth = useAuthStore();
+console.log("Auth Store Data: ", auth.user);
 
 onMounted(async () => {
   await fetchBlog();
@@ -67,6 +76,11 @@ onMounted(async () => {
   }
   .blog {
     display: flex;
+  }
+}
+@media screen and (max-width: 1300px) {
+  .blog {
+    flex-direction: column;
   }
 }
 </style>

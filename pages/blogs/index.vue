@@ -12,10 +12,11 @@
       </div>
       <div class="filter">
         <n-select
-          v-model:value="value"
+          v-model:value="selectedCategory"
           size="large"
-          :options="options"
+          :options="formatedCategories"
           placeholder="Filter by category"
+          @update:value="handleCategorySelect"
         />
       </div>
     </div>
@@ -33,23 +34,24 @@ definePageMeta({
 
 const page = ref(1);
 const totalPages = ref(100);
+const selectedCategory = ref(null);
 
-const value = ref(null);
-const options = [
-  {
-    label: "Everybody's Got Something to Hide Except Me and My Monkey",
-    value: "song0",
-    disabled: true,
-  },
-  {
-    label: "Drive My Car",
-    value: "song1",
-  },
-  {
-    label: "Norwegian Wood",
-    value: "song2",
-  },
-];
+const { categories, fetchCategories } = useFetchCategories();
+
+onMounted(async () => {
+  await fetchCategories();
+});
+const formatedCategories = computed(() => {
+  return categories.value.map((category) => ({
+    ...category,
+    label: category.name,
+    value: category.id,
+  }));
+});
+
+const handleCategorySelect = (value) => {
+  console.log("Selected Value", selectedCategory.value);
+};
 </script>
 
 <style lang="scss" scoped>
