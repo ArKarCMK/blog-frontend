@@ -38,9 +38,8 @@
 </template>
 <script setup>
 import { onMounted, computed } from "vue";
-import useFetchBlogs from "../../composables/useFetchBlogs";
 
-const { blogs, fetchBlogs } = useFetchBlogs();
+const blogStore = useBlogStore();
 const props = defineProps({
   limit: {
     type: Number,
@@ -48,11 +47,11 @@ const props = defineProps({
   },
 });
 onMounted(async () => {
-  await fetchBlogs();
+  await blogStore.fetchBlogs();
 });
 
 const fixedBlogs = computed(() => {
-  return blogs.value
+  return blogStore.blogs
     .map((blog) => {
       return {
         ...blog,
@@ -62,7 +61,7 @@ const fixedBlogs = computed(() => {
             : blog.body,
       };
     })
-    .slice(0, props.limit ? props.limit : blogs.value.length);
+    .slice(0, props.limit ? props.limit : blogStore.blogs.length);
 });
 </script>
 

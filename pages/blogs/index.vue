@@ -37,6 +37,7 @@ const totalPages = ref(100);
 const selectedCategory = ref(null);
 
 const { categories, fetchCategories } = useFetchCategories();
+const blogStore = useBlogStore();
 
 onMounted(async () => {
   await fetchCategories();
@@ -50,7 +51,7 @@ const formatedCategories = computed(() => {
 });
 
 const handleCategorySelect = (value) => {
-  console.log("Selected Value", selectedCategory.value);
+  blogStore.fetchBlogsByCategory(value);
 };
 </script>
 
