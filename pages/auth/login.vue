@@ -7,9 +7,17 @@
       <div class="password">Password</div>
       <n-input
         v-model:value="form.password"
-        type="text"
+        type="password"
+        show-password-on="click"
         placeholder="Password"
-      />
+      >
+        <template #password-visible-icon>
+          <n-icon :size="24" :component="GlassesOutline" />
+        </template>
+        <template #password-invisible-icon>
+          <n-icon :size="24" :component="Glasses" :style="{ color: 'green' }" />
+        </template>
+      </n-input>
       <div class="wrap-button">
         <n-button @click="handleClick" class="loginBtn" type="primary" tertiary>
           Login
@@ -21,6 +29,7 @@
 
 <script setup>
 import { useAuthStore } from "../../stores/useAuthStore";
+import { GlassesOutline, Glasses } from "@vicons/ionicons5";
 
 definePageMeta({
   middleware: "guest",

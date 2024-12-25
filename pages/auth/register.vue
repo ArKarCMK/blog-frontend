@@ -12,15 +12,39 @@
       <div class="title">Password</div>
       <n-input
         v-model:value="form.password"
-        type="text"
+        type="password"
+        show-password-on="click"
         placeholder="Password"
-      />
+      >
+        <template #password-visible-icon>
+          <n-icon :size="24" :component="GlassesOutline" />
+        </template>
+        <template #password-invisible-icon>
+          <n-icon :size="24" :component="Glasses" :style="{ color: 'green' }" />
+        </template>
+      </n-input>
 
       <div class="title">Please Enter Your Password Again</div>
       <n-input
         v-model:value="form.password_confirmation"
-        type="text"
+        type="password"
+        show-password-on="click"
         placeholder="Password"
+      >
+        <template #password-visible-icon>
+          <n-icon :size="24" :component="GlassesOutline" />
+        </template>
+        <template #password-invisible-icon>
+          <n-icon :size="24" :component="Glasses" :style="{ color: 'green' }" />
+        </template>
+      </n-input>
+
+      <div class="title">Please upload your profile picture</div>
+      <n-upload
+        :file="form.profile_picture"
+        list-type="image-card"
+        @change="handleImageUpload"
+        :max="1"
       />
 
       <div class="wrap-button">
@@ -39,26 +63,53 @@
 
 <script setup>
 // import axios from "axios";
+import {
+  ArchiveOutline as ArchiveIcon,
+  GlassesOutline,
+  Glasses,
+} from "@vicons/ionicons5";
+import { routerKey } from "vue-router";
 
 definePageMeta({
   middleware: "guest",
 });
+const auth = useAuthStore();
+const router = useRouter();
 
 const form = ref({
   email: "",
   password: "",
   name: "",
   password_confirmation: "",
+  profile_picture: null,
 });
-const auth = useAuthStore();
+
+const handleImageUpload = (file) => {
+  const img = file.file.file;
+  form.value.profile_picture = img;
+};
 
 const handleClick = async () => {
   try {
-    await auth.register(form.value);
-    if (auth.isLoggedIn) {
-      window.location.href = "/home";
+    const formData = new FormData();
+
+    formData.append("name", form.value.name);
+    formData.append("email", form.value.email);
+    formData.append("password", form.value.password);
+    formData.append("password_confirmation", form.value.password_confirmation);
+
+    if (form.value.profile_picture) {
+      formData.append("profile_picture", form.value.profile_picture);
+    }
+
+    const res = await auth.register(formData);
+    console.log("res", res);
+
+    if (res.error.value) {
+      console.log("Error during registration", res.error.value);
+      return;
     } else {
-      console.log("Error in registration");
+      await router.push("/auth/login");
     }
   } catch (error) {
     console.log("Error during registration", error);
@@ -85,6 +136,9 @@ const handleClick = async () => {
       font-weight: bold;
     }
     .title {
+      padding: 10px 0;
+    }
+    .upload {
       padding: 10px 0;
     }
     .wrap-button {

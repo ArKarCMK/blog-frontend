@@ -40,12 +40,12 @@ export const useAuthStore = defineStore("auth", () => {
 
   const register = async (credentials: Credentials) => {
     await useApiFetch("/sanctum/csrf-cookie");
-    await useApiFetch("/register", {
+    const response = await useApiFetch("/register", {
       method: "POST",
       body: credentials,
     });
 
-    return register;
+    return response;
   };
   return { user, isLoggedIn, fetchUser, login, register };
 });

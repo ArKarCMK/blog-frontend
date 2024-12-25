@@ -27,7 +27,7 @@
     </div>
     <div class="auth-column" v-if="auth.isLoggedIn">
       <img
-        src="https://randomuser.me/api/portraits/med/men/33.jpg"
+        :src="auth.user.profile_picture"
         alt="profile"
         width="50"
         height="50"
