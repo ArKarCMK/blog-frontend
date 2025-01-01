@@ -10,6 +10,7 @@
         type="password"
         show-password-on="click"
         placeholder="Password"
+        @keyup.enter="handleClick"
       >
         <template #password-visible-icon>
           <n-icon :size="24" :component="GlassesOutline" />
