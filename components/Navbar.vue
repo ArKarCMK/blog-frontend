@@ -26,14 +26,22 @@
       </n-button>
     </div>
     <div class="auth-column" v-if="auth.isLoggedIn">
-      <img
-        :src="auth.user.profile_picture"
-        alt="profile"
-        width="50"
-        height="50"
-        class="img"
-      />
-
+      <n-button
+        quaternary
+        circle
+        type="primary"
+        @click="$router.push('/profile')"
+      >
+        <template #icon>
+          <img
+            :src="auth.user.profile_picture"
+            alt="profile"
+            width="50"
+            height="50"
+            class="img"
+          />
+        </template>
+      </n-button>
       <div class="name">
         {{ auth.user.name }}
       </div>
@@ -93,6 +101,9 @@ const auth = useAuthStore();
     height: 60px;
     align-items: center;
     justify-content: center;
+    .img-button {
+      width: 50px;
+    }
     .login {
       background: $btn-bg;
       color: $btn-text;
@@ -103,9 +114,11 @@ const auth = useAuthStore();
       margin-right: 10px;
       border: 1px solid $btn-bg;
     }
+
     .img {
       font-size: 16px;
       border-radius: 25px;
+      margin-right: 20px;
     }
     .name {
       margin: 0 20px 0 10px;
