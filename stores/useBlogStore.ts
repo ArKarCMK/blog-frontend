@@ -4,18 +4,19 @@ import { defineStore } from "pinia";
 export const useBlogStore = defineStore("blogStore", {
   state: () => ({
     config: useRuntimeConfig(),
+    blogsWithPage: ref({}),
     blogs: [],
     userBlogs: [],
   }),
 
   actions: {
-    async fetchBlogs() {
+    async fetchBlogs(page: number) {
       try {
         const response = await axios.get(
-          `${this.config.public.baseURL}/blogs/all`
+          `${this.config.public.baseURL}/blogs/all?page=${page}`
         );
-
-        this.blogs = response.data;
+        this.blogsWithPage = response.data;
+        this.blogs = response.data.data;
       } catch (error) {
         console.log("Error in fetching blogs", error);
       }
@@ -23,10 +24,15 @@ export const useBlogStore = defineStore("blogStore", {
 
     async fetchBlogsByUser(userId: number) {
       try {
-        const res = await axios.get(
-          `${this.config.public.baseURL}/blogs/user/${userId}`
-        );
-        this.userBlogs = res.data.data;
+        const res = await useApiFetch(`/api/blogs/user/${userId}`, {
+          method: "GET",
+        });
+        if (res.data.value) {
+          this.userBlogs = res.data.value.data;
+        } else {
+          console.error("No user blogs found");
+        }
+
         console.log("User blogs", this.userBlogs);
       } catch (error) {
         console.log("Error in fetcing user blogs", error);
