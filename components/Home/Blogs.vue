@@ -53,7 +53,6 @@ const props = defineProps({
 onMounted(async () => {
   await blogStore.fetchBlogs(props.page);
 });
-console.log("pagination from blog componenet: ", props.page);
 watch(
   () => props.page,
   (newPage) => {

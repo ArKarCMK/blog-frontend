@@ -61,7 +61,6 @@ onMounted(async () => {
 });
 
 const fixedBlogs = computed(() => {
-  console.log("Blog Store User Blogs", blogStore.userBlogs);
   return blogStore.userBlogs
     .map((blog) => {
       return {

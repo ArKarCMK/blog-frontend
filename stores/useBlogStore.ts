@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 export const useBlogStore = defineStore("blogStore", {
   state: () => ({
     config: useRuntimeConfig(),
-    blogsWithPage: ref({}),
+    blogsWithPage: {},
     blogs: [],
     userBlogs: [],
   }),
@@ -32,8 +32,6 @@ export const useBlogStore = defineStore("blogStore", {
         } else {
           console.error("No user blogs found");
         }
-
-        console.log("User blogs", this.userBlogs);
       } catch (error) {
         console.log("Error in fetcing user blogs", error);
       }

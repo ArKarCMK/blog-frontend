@@ -38,26 +38,17 @@ definePageMeta({
 
 const page = ref(1);
 
-// const pageCount = ref(100);
+const pageCount = ref(100);
 const selectedCategory = ref(null);
 const blogWithPages = ref({});
 
-const pageCount = computed(() => {
-  if (!blogWithPages.value || !blogWithPages.value.totalItems) {
-    return 1;
-  }
-  return Math.ceil(
-    blogWithPages.value.totalItems / blogWithPages.value.itemsPerPage
-  );
-});
-
 const { categories, fetchCategories } = useFetchCategories();
 const blogStore = useBlogStore();
-console.log("Total Page Calculation :", blogWithPages.value);
 
 onMounted(async () => {
   await fetchCategories();
   blogWithPages.value = blogStore.blogsWithPage;
+  handlePageCount();
 });
 
 const formatedCategories = computed(() => {
@@ -68,9 +59,16 @@ const formatedCategories = computed(() => {
   }));
 });
 
-const handlePageChange = () => {
-  console.log("Pagination Nubmer", page.value);
+const handlePageCount = () => {
+  if (blogWithPages.value) {
+    const pages = Math.ceil(
+      blogWithPages.value.total / blogWithPages.value.per_page
+    );
+    pageCount.value = pages;
+  }
 };
+
+const handlePageChange = () => {};
 
 const handleCategorySelect = (value) => {
   blogStore.fetchBlogsByCategory(value);
