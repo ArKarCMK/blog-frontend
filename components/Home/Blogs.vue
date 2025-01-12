@@ -45,10 +45,20 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  page: {
+    type: Number,
+    default: 1,
+  },
 });
 onMounted(async () => {
-  await blogStore.fetchBlogs();
+  await blogStore.fetchBlogs(props.page);
 });
+watch(
+  () => props.page,
+  (newPage) => {
+    blogStore.fetchBlogs(props.page);
+  }
+);
 
 const fixedBlogs = computed(() => {
   return blogStore.blogs

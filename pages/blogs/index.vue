@@ -20,9 +20,13 @@
         />
       </div>
     </div>
-    <HomeBlogs />
+    <HomeBlogs :page="page" />
     <div class="pagination">
-      <n-pagination v-model:page="page" :page-count="100" />
+      <n-pagination
+        v-model:page="page"
+        :page-count="pageCount"
+        @update:page="handlePageChange"
+      />
     </div>
   </div>
 </template>
@@ -33,15 +37,20 @@ definePageMeta({
 });
 
 const page = ref(1);
-const totalPages = ref(100);
+
+const pageCount = ref(100);
 const selectedCategory = ref(null);
+const blogWithPages = ref({});
 
 const { categories, fetchCategories } = useFetchCategories();
 const blogStore = useBlogStore();
 
 onMounted(async () => {
   await fetchCategories();
+  blogWithPages.value = blogStore.blogsWithPage;
+  handlePageCount();
 });
+
 const formatedCategories = computed(() => {
   return categories.value.map((category) => ({
     ...category,
@@ -49,6 +58,17 @@ const formatedCategories = computed(() => {
     value: category.id,
   }));
 });
+
+const handlePageCount = () => {
+  if (blogWithPages.value) {
+    const pages = Math.ceil(
+      blogWithPages.value.total / blogWithPages.value.per_page
+    );
+    pageCount.value = pages;
+  }
+};
+
+const handlePageChange = () => {};
 
 const handleCategorySelect = (value) => {
   blogStore.fetchBlogsByCategory(value);
