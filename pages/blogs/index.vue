@@ -10,6 +10,25 @@
         />
         <n-button tertiary size="large" class="btn">search</n-button>
       </div>
+      <div class="wrap-add-btn">
+        <n-tooltip placement="bottom" trigger="hover">
+          <template #trigger>
+            <n-button
+              @click="handleAddBlog"
+              class="add-btn"
+              strong
+              primary
+              circle
+              size="large"
+            >
+              <template #icon>
+                <n-icon><AddOutline /></n-icon>
+              </template>
+            </n-button>
+          </template>
+          Add Blog
+        </n-tooltip>
+      </div>
       <div class="filter">
         <n-select
           v-model:value="selectedCategory"
@@ -32,6 +51,13 @@
 </template>
 
 <script setup>
+import {
+  AddCircle,
+  AddOutline,
+  AddSharp,
+  CashOutline as CashIcon,
+} from "@vicons/ionicons5";
+
 definePageMeta({
   layout: "custom",
 });
@@ -42,6 +68,7 @@ const pageCount = ref(100);
 const selectedCategory = ref(null);
 const blogWithPages = ref({});
 
+const router = useRouter();
 const { categories, fetchCategories } = useFetchCategories();
 const blogStore = useBlogStore();
 
@@ -68,6 +95,10 @@ const handlePageCount = () => {
   }
 };
 
+const handleAddBlog = () => {
+  router.push("/blogs/add");
+};
+
 const handlePageChange = () => {};
 
 const handleCategorySelect = (value) => {
@@ -89,6 +120,13 @@ const handleCategorySelect = (value) => {
       .btn {
         background-color: $btn-bg;
         color: $btn-text;
+      }
+    }
+    .wrap-add-btn {
+      .add-btn {
+        background: $link-hover;
+        color: #fff;
+        margin: 30px 0 20px 0;
       }
     }
     .filter {
