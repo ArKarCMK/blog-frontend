@@ -128,7 +128,9 @@ const handleClick = async () => {
     const res = await auth.register(formData);
     // console.log("es", res);
     // console.log("Error Response", res.error.value.data.errors);
-    errorMessages.value = res.error.value.data.errors;
+    if (res.error.value.data.error) {
+      errorMessages.value = res.error.value.data.errors;
+    }
 
     console.log("Error Messages", errorMessages.value);
 

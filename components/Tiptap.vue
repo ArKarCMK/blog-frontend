@@ -86,6 +86,36 @@
             <RedoFilled />
           </n-icon>
         </n-button>
+        <n-button
+          size="small"
+          @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+        >
+          <n-icon>
+            <H1 />
+          </n-icon>
+        </n-button>
+        <n-button
+          size="small"
+          @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+        >
+          <n-icon><H2 /></n-icon>
+        </n-button>
+        <n-button
+          size="small"
+          @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+        >
+          <n-icon><H3 /></n-icon>
+        </n-button>
+        <n-button
+          size="small"
+          @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
+          :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+        >
+          <n-icon><H4 /></n-icon>
+        </n-button>
       </div>
     </div>
     <div class="text-area">
@@ -111,13 +141,19 @@ import {
   UndoFilled,
 } from "@vicons/material";
 
-const editor = ref(null);
+import { H1, H2, H3, H4 } from "@vicons/tabler";
 
+const editor = ref(null);
+const content = ref("");
+
+const emit = defineEmits(["update:content"]);
 onMounted(() => {
   editor.value = new Editor({
     extensions: [TextStyle.configure({ types: [ListItem.name] }), StarterKit],
-    content: `
-          `,
+    content: ``,
+    onUpdate: ({ editor }) => {
+      emit("update:content", editor.getHTML());
+    },
   });
 });
 
@@ -149,9 +185,11 @@ onBeforeUnmount(() => {
     border-radius: 8px;
     margin-top: 10px;
     ::v-deep .ProseMirror {
-      padding: 0;
+      padding-left: 10px;
       min-height: 300px;
-      width: 500px;
+      max-height: calc(100vh - 350px);
+      overflow: auto;
+      width: calc(100vw - 300px);
     }
     ::v-deep .ProseMirror:focus {
       outline: none;
