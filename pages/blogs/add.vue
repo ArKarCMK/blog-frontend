@@ -1,10 +1,5 @@
 <template>
   <div class="wrapper">
-    <div v-if="successMessage !== ''" class="message-wrapper">
-      <n-alert class="success-message" type="info" closable>
-        {{ successMessage }}
-      </n-alert>
-    </div>
     <div class="container">
       <h2>Add Blog</h2>
       <div class="title">
@@ -51,6 +46,7 @@ import { ForumRound } from "@vicons/material";
 // const title = ref("");
 // const content = ref("");
 const selectedCategory = ref(null);
+const show = ref("false");
 const form = ref({
   user_id: "",
   title: "",
@@ -96,11 +92,13 @@ const handleCancel = () => {
 };
 const handleAdd = async () => {
   form.value.user_id = auth.user.id;
-  console.log("Blog form", form.value);
   const res = await blogStore.addBlog(form.value);
-  console.log("res in adding blog page: ", res.data);
   if (res.data.value.message) {
     successMessage.value = res.data.value.message;
+    router.push({
+      path: `/blogs/${res.data.value.blog_id}`,
+      query: { successMessage: res.data.value.message },
+    });
   }
 };
 </script>
@@ -158,13 +156,13 @@ const handleAdd = async () => {
       }
     }
   }
-  .message-wrapper {
+  /* .message-wrapper {
     position: relative;
     .success-message {
       position: absolute;
       top: 20px;
       right: 20px;
     }
-  }
+  } */
 }
 </style>

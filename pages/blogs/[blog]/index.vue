@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <SuccessMessage :message="successMessage" />
     <div class="wrap-bar">
       <div class="title">
         <n-button @click="$router.back()" quaternary circle type="info">
@@ -51,11 +52,13 @@ import useFetchBlog from "@/composables/useFetchBlog";
 const route = useRoute();
 const { blog, fetchBlog } = useFetchBlog(route.params.blog);
 const auth = useAuthStore();
-console.log("Auth Store Data: ", auth.user);
+const successMessage = ref(route.query.successMessage || "");
 
 onMounted(async () => {
   await fetchBlog();
 });
+
+console.log(route);
 </script>
 
 <style lang="scss" scoped>
