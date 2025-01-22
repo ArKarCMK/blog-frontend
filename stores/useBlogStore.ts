@@ -13,7 +13,7 @@ export const useBlogStore = defineStore("blogStore", {
     async fetchBlogs(page: number) {
       try {
         const response = await axios.get(
-          `${this.config.public.baseURL}/blogs/all?page=${page}`
+          `${this.config.public.baseURL}/blogs/all?page=${page}`,
         );
         this.blogsWithPage = response.data;
         this.blogs = response.data.data;
@@ -40,12 +40,24 @@ export const useBlogStore = defineStore("blogStore", {
     async fetchBlogsByCategory(categoryId: number) {
       try {
         const res = await axios.get(
-          `${this.config.public.baseURL}/blogs/category/${categoryId}`
+          `${this.config.public.baseURL}/blogs/category/${categoryId}`,
         );
         this.blogs.length = 0;
         this.blogs = res.data;
       } catch (error) {
         console.log("Error in fetching blogs", error);
+      }
+    },
+
+    async addBlog(blog: any) {
+      try {
+        const res = await useApiFetch(`/api/blogs/store`, {
+          method: "POST",
+          body: blog,
+        });
+        return res;
+      } catch (error) {
+        console.log("Error in adding blog:", error);
       }
     },
   },
