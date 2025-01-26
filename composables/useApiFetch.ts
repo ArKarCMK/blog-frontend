@@ -1,4 +1,6 @@
-export const useApiFetch = (path: string, options: any) => {
+import type { UseFetchOptions } from "#app";
+
+export const useApiFetch = <T>(path: string, options?: UseFetchOptions<T>) => {
   let headers: Record<string, string> = {
     accept: "application/json",
     referer: "http://localhost:3000",
