@@ -3,7 +3,11 @@
     <div class="container">
       <h4>Comments</h4>
       <div class="comment-box">
-        <n-card class="card" v-for="comment in comments" :key="comment.id">
+        <n-card
+          class="card"
+          v-for="comment in commentStore.comments"
+          :key="comment.id"
+        >
           <div class="first-row">
             <div class="user">
               <img
@@ -22,12 +26,29 @@
           </div>
         </n-card>
       </div>
-      <n-input
-        v-model:value="commentInput"
-        type="text"
-        placeholder="Type your comment..."
-        @keyup.enter="handleComment"
-      />
+
+      <div class="comment-input-wrapper">
+        <div class="comment-profile">
+          <img
+            :src="auth.user.profile_picture"
+            width="40"
+            height="40"
+            alt="profile"
+            class="img"
+          />
+        </div>
+        <n-input
+          class="comment-input"
+          v-model:value="commentInput"
+          type="textarea"
+          placeholder="Type your comment..."
+          @keyup.enter="
+            (event) => {
+              if (!event.shiftKey) handleComment();
+            }
+          "
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -39,28 +60,46 @@ const props = defineProps({
   blog: Object,
 });
 
-const { comments, fetchComments } = useFetchComments(props.blog.id);
 const commentInput = ref("");
+const auth = useAuthStore();
+const createdComment = ref("");
+const blogId = ref(null);
+const commentStore = useCommentStore();
+const commentForm = ref({
+  body: "",
+  blog_id: null,
+});
 
 watch(
   () => props.blog,
   (newBlog) => {
     if (newBlog) {
-      fetchComments(newBlog.id);
+      commentStore.fetchComments(newBlog.id);
+      blogId.value = newBlog.id;
     }
   }
 );
 
-onMounted(async () => {
-  await fetchComments();
-});
+watch(
+  () => createdComment.value,
+  (newComment) => {
+    commentStore.fetchComments(blogId.value);
+  }
+);
 
 const formatTimeAgo = (dateString) => {
   return formatDistanceToNow(new Date(dateString), { addSuffix: true });
 };
 
-const handleComment = () => {
-  console.log(commentInput.value);
+const handleComment = async () => {
+  commentForm.value.blog_id = props.blog.id;
+  commentForm.value.body = commentInput.value;
+
+  const res = await commentStore.addComment(commentForm.value);
+  if (res.data.value) {
+    createdComment.value = res.data.value.data.body;
+  }
+
   commentInput.value = "";
 };
 </script>
@@ -92,6 +131,20 @@ const handleComment = () => {
             margin-right: 10px;
           }
         }
+      }
+    }
+  }
+  .comment-input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background: teal; */
+    .comment-profile {
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      .img {
+        border-radius: 50%;
       }
     }
   }

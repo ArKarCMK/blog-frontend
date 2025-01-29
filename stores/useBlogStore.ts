@@ -4,15 +4,15 @@ import { defineStore } from "pinia";
 export const useBlogStore = defineStore("blogStore", {
   state: () => ({
     config: useRuntimeConfig(),
-    blogsWithPage: {},
-    blogs: [],
-    userBlogs: [],
+    blogsWithPage: {} as any,
+    blogs: [] as Blog[],
+    userBlogs: [] as Blog[],
   }),
 
   actions: {
     async fetchBlogs(page: number) {
       try {
-        const response = await axios.get(
+        const response = await axios.get<any>(
           `${this.config.public.baseURL}/blogs/all?page=${page}`,
         );
         this.blogsWithPage = response.data;
@@ -24,9 +24,12 @@ export const useBlogStore = defineStore("blogStore", {
 
     async fetchBlogsByUser(userId: number) {
       try {
-        const res = await useApiFetch(`/api/blogs/user/${userId}`, {
-          method: "GET",
-        });
+        const res = await useApiFetch<ApiResponse<Blog[]>>(
+          `/api/blogs/user/${userId}`,
+          {
+            method: "GET",
+          },
+        );
         if (res.data.value) {
           this.userBlogs = res.data.value.data;
         } else {
