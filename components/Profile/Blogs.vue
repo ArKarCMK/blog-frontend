@@ -5,7 +5,10 @@
         <n-grid-item v-for="blog in fixedBlogs" :key="blog.id"> -->
       <n-grid :cols="cols" responsive="screen" x-gap="12">
         <n-grid-item v-for="blog in fixedBlogs" :key="blog.id">
-          <n-card style="margin-bottom: 10px" hoverable>
+          <n-card
+            style="margin-bottom: 10px; display: flex; align-items: center"
+            hoverable
+          >
             <div class="blog">
               <div class="image">
                 <img
@@ -28,6 +31,30 @@
                   class="btn"
                   >Read More</n-button
                 >
+                <div class="edit-and-del">
+                  <n-button
+                    quaternary
+                    circle
+                    type="success"
+                    size="large"
+                    @click="$router.push(`/blogs/${blog.id}/edit`)"
+                  >
+                    <template #icon>
+                      <n-icon><EditFilled /></n-icon>
+                    </template>
+                  </n-button>
+                  <n-button
+                    quaternary
+                    circle
+                    type="error"
+                    size="large"
+                    @click="handleDelete"
+                  >
+                    <template #icon>
+                      <n-icon><DeleteForeverRound /></n-icon>
+                    </template>
+                  </n-button>
+                </div>
               </div>
             </div>
           </n-card>
@@ -39,6 +66,7 @@
 </template>
 <script setup>
 import { onMounted, computed } from "vue";
+import { EditFilled, DeleteForeverRound } from "@vicons/material";
 
 const blogStore = useBlogStore();
 const auth = useAuthStore();
@@ -81,6 +109,7 @@ const fixedBlogs = computed(() => {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  /* justify-content: center; */
   .blog {
     width: 330px;
     height: 400px;
@@ -94,10 +123,12 @@ const fixedBlogs = computed(() => {
     .button {
       display: flex;
       justify-content: space-between;
-      display: flex;
-      position: absolute;
+      /* background: teal; */
+      padding-top: 20px;
+      /* display: flex; */
+      /* position: absolute;
       bottom: 0;
-      margin: 0 0 5px 10px;
+      margin: 0 0 5px 10px; */
 
       .btn {
         background: $btn-bg;

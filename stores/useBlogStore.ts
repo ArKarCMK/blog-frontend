@@ -7,6 +7,7 @@ export const useBlogStore = defineStore("blogStore", {
     blogsWithPage: {} as any,
     blogs: [] as Blog[],
     userBlogs: [] as Blog[],
+    blog: {} as Blog,
   }),
 
   actions: {
@@ -19,6 +20,17 @@ export const useBlogStore = defineStore("blogStore", {
         this.blogs = response.data.data;
       } catch (error) {
         console.log("Error in fetching blogs", error);
+      }
+    },
+
+    async fetchBlog(blogId: number) {
+      try {
+        const res = await axios.get(
+          `${this.config.public.baseURL}/blogs/${blogId}`,
+        );
+        this.blog = res.data;
+      } catch (error) {
+        console.log("Error in fetching blog: ", error);
       }
     },
 
@@ -61,6 +73,18 @@ export const useBlogStore = defineStore("blogStore", {
         return res;
       } catch (error) {
         console.log("Error in adding blog:", error);
+      }
+    },
+
+    async editBlog(blogId: number, blog: Blog) {
+      try {
+        const res = await useApiFetch(`/api/blogs/edit/${blogId}`, {
+          method: "PUT",
+          body: blog,
+        });
+        return res;
+      } catch (error) {
+        console.log("Error in editing blog: ", error);
       }
     },
   },
