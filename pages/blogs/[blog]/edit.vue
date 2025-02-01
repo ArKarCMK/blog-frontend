@@ -14,7 +14,6 @@ onMounted(async () => {
   await blogStore.fetchBlog(blogId);
 
   blog.value = blogStore.blog;
-  console.log("Blog Value ", blog.value);
 });
 const handleSave = async (form) => {
   const res = await blogStore.editBlog(blogId, form);

@@ -48,7 +48,7 @@
                     circle
                     type="error"
                     size="large"
-                    @click="handleDelete"
+                    @click="handleDelete(blog.id)"
                   >
                     <template #icon>
                       <n-icon><DeleteForeverRound /></n-icon>
@@ -101,6 +101,16 @@ const fixedBlogs = computed(() => {
     })
     .slice(0, props.limit ? props.limit : blogStore.userBlogs.length);
 });
+
+const handleDelete = async (blogId) => {
+  const res = await blogStore.deleteBlog(blogId);
+
+  if (!res.error.value) {
+    blogStore.userBlogs = blogStore.userBlogs.filter(
+      (blog) => blog.id !== blogId,
+    );
+  }
+};
 </script>
 
 <style lang="scss" scoped>
