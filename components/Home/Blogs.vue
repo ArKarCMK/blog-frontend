@@ -57,12 +57,14 @@ watch(
   () => props.page,
   (newPage) => {
     blogStore.fetchBlogs(props.page);
-  }
+  },
 );
 
 const fixedBlogs = computed(() => {
   return blogStore.blogs
     .map((blog) => {
+      blog.body = blog.body.replace(/<[^>]+>/g, "").trim();
+
       return {
         ...blog,
         limtedBody:

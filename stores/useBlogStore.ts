@@ -7,6 +7,7 @@ export const useBlogStore = defineStore("blogStore", {
     blogsWithPage: {} as any,
     blogs: [] as Blog[],
     userBlogs: [] as Blog[],
+    blog: {} as Blog,
   }),
 
   actions: {
@@ -22,21 +23,34 @@ export const useBlogStore = defineStore("blogStore", {
       }
     },
 
-    async fetchBlogsByUser(userId: number) {
+    async fetchBlog(blogId: number) {
       try {
-        const res = await useApiFetch<ApiResponse<Blog[]>>(
-          `/api/blogs/user/${userId}`,
-          {
-            method: "GET",
-          },
+        const res = await axios.get(
+          `${this.config.public.baseURL}/blogs/${blogId}`,
         );
-        if (res.data.value) {
-          this.userBlogs = res.data.value.data;
-        } else {
-          console.error("No user blogs found");
-        }
+        this.blog = res.data;
       } catch (error) {
-        console.log("Error in fetcing user blogs", error);
+        console.log("Error in fetching blog: ", error);
+      }
+    },
+
+    async fetchBlogsByUser(userId: number) {
+      const res = await useApiFetch<ApiResponse<Blog[]>>(
+        `/api/blogs/user/${userId}`,
+        {
+          method: "GET",
+        },
+      );
+
+      if (res.error?.value) {
+        console.error("Error in fetching user blogs:", res.error.value);
+        return;
+      }
+
+      if (res.data.value) {
+        this.userBlogs = res.data.value.data;
+      } else {
+        console.error("No user blogs found");
       }
     },
 
@@ -53,15 +67,39 @@ export const useBlogStore = defineStore("blogStore", {
     },
 
     async addBlog(blog: any) {
-      try {
-        const res = await useApiFetch(`/api/blogs/store`, {
-          method: "POST",
-          body: blog,
-        });
-        return res;
-      } catch (error) {
-        console.log("Error in adding blog:", error);
+      const res = await useApiFetch(`/api/blogs/store`, {
+        method: "POST",
+        body: blog,
+      });
+
+      if (res.error?.value) {
+        console.error("Error in adding blog:", res.error.value);
+        return;
       }
+
+      return res;
+    },
+
+    async editBlog(blogId: number, blog: Blog) {
+      const res = await useApiFetch(`/api/blogs/edit/${blogId}`, {
+        method: "PUT",
+        body: blog,
+      });
+
+      if (res.error?.value) {
+        console.error("Error in editing blog:", res.error.value);
+        return;
+      }
+
+      return res;
+    },
+
+    async deleteBlog(blogId: number) {
+      const res = await useApiFetch(`/api/blogs/delete/${blogId}`, {
+        method: "DELETE",
+      });
+
+      return res;
     },
   },
 });

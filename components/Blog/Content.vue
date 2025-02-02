@@ -6,7 +6,8 @@
     <div class="content">
       <h2>{{ blog.title }}</h2>
       <h1>{{ blog.user_id }}</h1>
-      <p class="body">{{ blog.body }}</p>
+      <!-- <p class="body">{{ blog.body }}</p> -->
+      <div v-html="blog.body" />
     </div>
   </div>
 </template>

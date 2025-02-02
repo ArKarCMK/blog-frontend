@@ -146,6 +146,9 @@ import { H1, H2, H3, H4 } from "@vicons/tabler";
 const editor = ref(null);
 const content = ref("");
 
+const props = defineProps({
+  originalContent: String,
+});
 const emit = defineEmits(["update:content"]);
 onMounted(() => {
   editor.value = new Editor({
@@ -156,6 +159,15 @@ onMounted(() => {
     },
   });
 });
+
+watch(
+  () => props.originalContent,
+  (newValue) => {
+    if (editor.value && newValue !== editor.value.getHTML()) {
+      editor.value.commands.setContent(newValue);
+    }
+  },
+);
 
 onBeforeUnmount(() => {
   editor.value?.destroy();
