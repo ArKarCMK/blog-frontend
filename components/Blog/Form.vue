@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="container">
-      <h2>Add Blog</h2>
+      <h2>{{ mode }} Blog</h2>
       <div class="title">
         <div class="title-label">Blog Title</div>
         <n-input
@@ -69,6 +69,7 @@ onMounted(() => {
 
 const props = defineProps({
   originalBlog: Object,
+  mode: String,
 });
 
 const emits = defineEmits(["handleDataSave"]);
