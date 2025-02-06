@@ -1,11 +1,16 @@
 <template>
   <div class="container">
-    <BlogForm :originalBlog="blog" @handleDataSave="handleSave" />
+    <BlogForm
+      :mode="editMode"
+      :originalBlog="blog"
+      @handleDataSave="handleSave"
+    />
   </div>
 </template>
 
 <script setup>
 const route = useRoute();
+const editMode = "Edit";
 const blogStore = useBlogStore();
 const blog = ref({});
 let blogId = route.params.blog;
