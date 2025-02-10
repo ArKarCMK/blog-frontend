@@ -37,30 +37,41 @@ import axios from "axios";
 import { CaretForwardOutline } from "@vicons/ionicons5";
 
 const config = useRuntimeConfig();
+const blogStore = useBlogStore();
 
 const blog = ref({});
 
 onMounted(async () => {
-  await fetchBlog();
+  await blogStore.fetchPopularBlog();
 });
+console.log("Popular", blogStore.popularBlog);
+
+// const fixedBlog = computed(() => {
+//   const blogBody = blog.value.body || "";
+//   return {
+//     ...blog.value,
+//     fixedBody:
+//       blogBody.length > 300 ? blogBody.substring(0, 300) + " ...." : blogBody,
+//   };
+// });
 
 const fixedBlog = computed(() => {
-  const blogBody = blog.value.body || "";
+  const blogBody = blogStore.popularBlog.body || "";
   return {
-    ...blog.value,
+    ...blogStore.popularBlog,
     fixedBody:
       blogBody.length > 300 ? blogBody.substring(0, 300) + " ...." : blogBody,
   };
 });
 
-const fetchBlog = async () => {
-  try {
-    const response = await axios.get(`${config.public.baseURL}/blogs/popular`);
-    blog.value = response.data;
-  } catch (error) {
-    console.log("Error in the popular blogs", error);
-  }
-};
+// const fetchBlog = async () => {
+//   try {
+//     const response = await axios.get(`${config.public.baseURL}/blogs/popular`);
+//     blog.value = response.data;
+//   } catch (error) {
+//     console.log("Error in the popular blogs", error);
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

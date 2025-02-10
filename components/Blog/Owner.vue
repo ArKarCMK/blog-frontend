@@ -1,13 +1,15 @@
 <template>
   <div class="container">
     <div class="writer">
-      <img
-        src="https://is.mediadelivery.fi/img/468/21543edab1b2496e9f0c0f612b4076c3.jpg"
-        width="50"
-        height="50"
-        alt="profile"
-        class="img"
-      />
+      <div v-if="blog?.user?.profile_picture">
+        <img
+          :src="blog.user.profile_picture"
+          width="50"
+          height="50"
+          alt="profile"
+          class="img"
+        />
+      </div>
       <h3 v-if="blog.user" class="name">{{ blog.user.name }}</h3>
     </div>
     <div>
@@ -71,7 +73,6 @@ const formatTime = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: fixed;
   .writer {
     display: flex;
     .img {

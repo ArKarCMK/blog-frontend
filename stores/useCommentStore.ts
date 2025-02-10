@@ -12,7 +12,7 @@ export const useCommentStore = defineStore("commentStore", {
           `/api/comments/${blogId}`,
           {
             method: "GET",
-          }
+          },
         );
         if (res.data.value) {
           this.comments = res.data.value.data;

@@ -5,8 +5,6 @@
     </div>
     <div class="content">
       <h2>{{ blog.title }}</h2>
-      <h1>{{ blog.user_id }}</h1>
-      <!-- <p class="body">{{ blog.body }}</p> -->
       <div v-html="blog.body" />
     </div>
   </div>
@@ -23,17 +21,6 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .container {
-  display: flex;
-  flex-direction: column;
   width: 600px;
-  height: 100vh;
-  margin-left: 300px;
-
-  //   background: teal;
-  .content {
-    .body {
-      font-size: 16px;
-    }
-  }
 }
 </style>

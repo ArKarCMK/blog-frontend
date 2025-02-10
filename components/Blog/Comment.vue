@@ -11,7 +11,7 @@
           <div class="first-row">
             <div class="user">
               <img
-                src="https://images.pexels.com/photos/1759530/pexels-photo-1759530.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                :src="comment.user.profile_picture"
                 alt=""
                 width="50"
                 height="50"
@@ -77,14 +77,14 @@ watch(
       commentStore.fetchComments(newBlog.id);
       blogId.value = newBlog.id;
     }
-  }
+  },
 );
 
 watch(
   () => createdComment.value,
   (newComment) => {
     commentStore.fetchComments(blogId.value);
-  }
+  },
 );
 
 const formatTimeAgo = (dateString) => {
@@ -107,11 +107,6 @@ const handleComment = async () => {
 <style lang="scss" scoped>
 .container {
   width: 450px;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  right: 0;
   margin-right: 20px;
   .comment-box {
     height: 500px;
@@ -138,7 +133,6 @@ const handleComment = async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background: teal; */
     .comment-profile {
       margin-right: 10px;
       display: flex;
@@ -149,15 +143,5 @@ const handleComment = async () => {
     }
   }
 }
-@media screen and (max-width: 1350px) {
-  .wrap-container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    .container {
-      position: static;
-      margin-bottom: 40px;
-    }
-  }
-}
+
 </style>
