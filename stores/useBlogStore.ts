@@ -93,7 +93,7 @@ export const useBlogStore = defineStore("blogStore", {
     },
 
     async editBlog(blogId: number, blog: Blog) {
-      const res = await useApiFetch(`/api/blogs/edit/${blogId}`, {
+      const res = await useApiFetch(`/api/blogs/${blogId}/edit`, {
         method: "PUT",
         body: blog,
       });
@@ -107,11 +107,19 @@ export const useBlogStore = defineStore("blogStore", {
     },
 
     async deleteBlog(blogId: number) {
-      const res = await useApiFetch(`/api/blogs/delete/${blogId}`, {
+      const res = await useApiFetch(`/api/blogs/${blogId}/delete`, {
         method: "DELETE",
       });
 
       return res;
     },
+
+    async toggleSubscribe(blogId: number) {
+      const res = await useApiFetch(`/api/blogs/${blogId}/subscription`, {
+        method: "POST",
+      });
+    
+      return res;
+    }
   },
 });

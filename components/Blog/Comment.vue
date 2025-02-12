@@ -10,13 +10,15 @@
         >
           <div class="first-row">
             <div class="user">
+             <div v-if="comment?.user?.profile_picture">
               <img
                 :src="comment.user.profile_picture"
                 alt=""
                 width="50"
                 height="50"
                 class="profile"
-              />
+              /> 
+             </div>
               <div class="name">{{ comment.user.name }}</div>
             </div>
             <div class="time">{{ formatTimeAgo(comment.created_at) }}</div>
@@ -59,6 +61,7 @@ import { formatDistanceToNow } from "date-fns";
 const props = defineProps({
   blog: Object,
 });
+console.log("Blog Store Props:", props.blog.subscribers)
 
 const commentInput = ref("");
 const auth = useAuthStore();

@@ -38,11 +38,11 @@
     <div class="blog">
       <template v-if="deviceWidth >= 1300">
         <n-grid cols="10">
-          <n-grid-item span="1.5">
+          <n-grid-item span="2">
             <BlogOwner :blog="blog" />
           </n-grid-item>
-          <n-grid-item span="5.5" class="content" >
-            <BlogContent :blog="blog" />
+          <n-grid-item span="5" class="content" >
+            <BlogContent :blog="blog" :userId="auth.user.id"/>
           </n-grid-item>
           <n-grid-item span="3">
             <BlogComment :blog="blog" />
@@ -56,7 +56,7 @@
             <BlogOwner :blog="blog" />
           </n-grid-item>
           <n-grid-item span="7" class="sm-content">
-            <BlogContent :blog="blog" />
+            <BlogContent :blog="blog" userId="auth.user.id"/>
           </n-grid-item>
         </n-grid>
         <div class="sm-comment">
