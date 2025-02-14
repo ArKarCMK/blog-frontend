@@ -10,13 +10,15 @@
         >
           <div class="first-row">
             <div class="user">
+             <div v-if="comment?.user?.profile_picture">
               <img
-                src="https://images.pexels.com/photos/1759530/pexels-photo-1759530.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                :src="comment.user.profile_picture"
                 alt=""
                 width="50"
                 height="50"
                 class="profile"
-              />
+              /> 
+             </div>
               <div class="name">{{ comment.user.name }}</div>
             </div>
             <div class="time">{{ formatTimeAgo(comment.created_at) }}</div>
@@ -59,6 +61,7 @@ import { formatDistanceToNow } from "date-fns";
 const props = defineProps({
   blog: Object,
 });
+console.log("Blog Store Props:", props.blog.subscribers)
 
 const commentInput = ref("");
 const auth = useAuthStore();
@@ -77,14 +80,14 @@ watch(
       commentStore.fetchComments(newBlog.id);
       blogId.value = newBlog.id;
     }
-  }
+  },
 );
 
 watch(
   () => createdComment.value,
   (newComment) => {
     commentStore.fetchComments(blogId.value);
-  }
+  },
 );
 
 const formatTimeAgo = (dateString) => {
@@ -107,11 +110,6 @@ const handleComment = async () => {
 <style lang="scss" scoped>
 .container {
   width: 450px;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  right: 0;
   margin-right: 20px;
   .comment-box {
     height: 500px;
@@ -138,7 +136,6 @@ const handleComment = async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background: teal; */
     .comment-profile {
       margin-right: 10px;
       display: flex;
@@ -149,15 +146,5 @@ const handleComment = async () => {
     }
   }
 }
-@media screen and (max-width: 1350px) {
-  .wrap-container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    .container {
-      position: static;
-      margin-bottom: 40px;
-    }
-  }
-}
+
 </style>

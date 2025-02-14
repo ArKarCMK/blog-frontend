@@ -8,6 +8,7 @@ export const useBlogStore = defineStore("blogStore", {
     blogs: [] as Blog[],
     userBlogs: [] as Blog[],
     blog: {} as Blog,
+    popularBlog: {} as Blog,
   }),
 
   actions: {
@@ -31,6 +32,17 @@ export const useBlogStore = defineStore("blogStore", {
         this.blog = res.data;
       } catch (error) {
         console.log("Error in fetching blog: ", error);
+      }
+    },
+
+    async fetchPopularBlog() {
+      try {
+        const res = await axios.get(
+          `${this.config.public.baseURL}/blogs/popular`,
+        );
+        this.popularBlog = res.data;
+      } catch (error) {
+        console.log("Error in fetching popular blog: ", error);
       }
     },
 
@@ -81,7 +93,7 @@ export const useBlogStore = defineStore("blogStore", {
     },
 
     async editBlog(blogId: number, blog: Blog) {
-      const res = await useApiFetch(`/api/blogs/edit/${blogId}`, {
+      const res = await useApiFetch(`/api/blogs/${blogId}/edit`, {
         method: "PUT",
         body: blog,
       });
@@ -95,11 +107,19 @@ export const useBlogStore = defineStore("blogStore", {
     },
 
     async deleteBlog(blogId: number) {
-      const res = await useApiFetch(`/api/blogs/delete/${blogId}`, {
+      const res = await useApiFetch(`/api/blogs/${blogId}/delete`, {
         method: "DELETE",
       });
 
       return res;
     },
+
+    async toggleSubscribe(blogId: number) {
+      const res = await useApiFetch(`/api/blogs/${blogId}/subscription`, {
+        method: "POST",
+      });
+    
+      return res;
+    }
   },
 });
