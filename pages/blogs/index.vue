@@ -52,9 +52,7 @@
 
 <script setup>
 import {
-  AddCircle,
   AddOutline,
-  AddSharp,
   CashOutline as CashIcon,
 } from "@vicons/ionicons5";
 
@@ -112,7 +110,6 @@ const handleCategorySelect = (value) => {
     display: flex;
     justify-content: space-between;
     .search {
-      // width: 300px;
       .input {
         width: 300px;
         margin: 30px 5px 20px 50px;

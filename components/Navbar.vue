@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <div class="logo">
-      <div>
-        <img widht="50" height="50" src="../assets/LOGO.png" />
+      <div @click="$router.push('/home')">
+        <img width="50" height="50" src="../assets/LOGO.png" />
       </div>
     </div>
     <div class="wrap-middle-column">
       <div class="middle-column">
         <nuxt-link class="link" to="/home">Home</nuxt-link>
         <nuxt-link class="link" to="/blogs">Blogs</nuxt-link>
-        <nuxt-link class="link" to="/about">About</nuxt-link>
+        <nuxt-link class="link" to="/profile">Profile</nuxt-link>
       </div>
     </div>
     <div class="auth-column" v-if="!auth.isLoggedIn">
@@ -26,13 +26,13 @@
       </n-button>
     </div>
     <div class="auth-column" v-if="auth.isLoggedIn">
-      <n-button
+      <!-- <n-button
         quaternary
         circle
         type="primary"
         @click="$router.push('/profile')"
       >
-        <template #icon>
+        <template #icon> -->
           <img
             :src="auth.user.profile_picture"
             alt="profile"
@@ -40,8 +40,8 @@
             height="50"
             class="img"
           />
-        </template>
-      </n-button>
+        <!-- </template>
+      </n-button> -->
       <div class="name">
         {{ auth.user.name }}
       </div>
@@ -67,6 +67,7 @@ const auth = useAuthStore();
   display: flex;
   justify-content: space-between;
   .logo {
+    cursor: pointer;
     height: 60px;
     display: flex;
     margin-top: 5px;

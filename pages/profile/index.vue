@@ -1,15 +1,27 @@
 <template>
   <div class="container">
-    <ProfileUser />
-    <ProfileBlogs />
+    <div class="body">
+      <ProfileUser />
+      <ProfileBlogs />
+    </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+definePageMeta({
+  layout: "custom",
+});
+</script>
 
 <style lang="scss" scoped>
 .container {
-  display: flex;
-  padding: 20px;
+  .button{
+    margin: 10px 0 0 10px;
+  }
+  .body{
+    display: flex;
+    padding: 20px;
+  }
+  
 }
 </style>
