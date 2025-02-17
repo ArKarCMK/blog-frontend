@@ -12,11 +12,20 @@ export const useBlogStore = defineStore("blogStore", {
   }),
 
   actions: {
-    async fetchBlogs(page: number) {
+    async fetchBlogs(page: number, search: string) {
       try {
-        const response = await axios.get<any>(
-          `${this.config.public.baseURL}/blogs/all?page=${page}`,
+        let response;
+        if(search && search.trim() !== "") {
+          console.log("Search from Blog Store: ", search)
+         response = await axios.get<any>(
+          `${this.config.public.baseURL}/blogs/all?page=${page}&search=${search}`
+        )
+        } else {
+          response = await axios.get<any>(
+          `${this.config.public.baseURL}/blogs/all?page=${page}`
         );
+        }
+        this.blogsWithPage = [];
         this.blogsWithPage = response.data;
         this.blogs = response.data.data;
       } catch (error) {
