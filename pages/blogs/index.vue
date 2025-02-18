@@ -76,6 +76,7 @@ const selectedCategory = ref(null);
 const blogWithPages = ref({});
 const search = ref("");
 const isShowClearIcon = ref(false)
+const categoryId = ref(null);
 
 const router = useRouter();
 const { categories, fetchCategories } = useFetchCategories();
@@ -105,13 +106,13 @@ const handlePageCount = () => {
 };
 
 const handleSearch = () => {
-  blogStore.fetchBlogs(page.value, search.value)
+  blogStore.fetchBlogs(page.value, search.value, categoryId.value)
   isShowClearIcon.value = true;
 }
 
 const handleClear = () => {
   search.value = ""
-  blogStore.fetchBlogs(page.value)
+  blogStore.fetchBlogs(page.value, search.value, categoryId.value)
   isShowClearIcon.value = false;
 } 
 
@@ -122,12 +123,11 @@ const handleAddBlog = () => {
 const handlePageChange = () => {};
 
 const handleCategorySelect = (value) => {
- 
-  if(value && value != "") {
-    blogStore.fetchBlogsByCategory(value);
-  } else {
-    blogStore.fetchBlogs(page)
-  }
+  categoryId.value = value;
+
+
+    blogStore.fetchBlogs(page.value, search.value, value);
+
 };
 </script>
 
