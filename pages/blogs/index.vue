@@ -7,8 +7,13 @@
           type="text"
           size="large"
           placeholder="Search Blog"
-        />
-        <n-button tertiary size="large" class="btn">search</n-button>
+          v-model:value="search"
+        >
+          <template v-if="isShowClearIcon"  #suffix>
+            <n-icon @click="handleClear"  class="close" :component="Close" />
+          </template>
+        </n-input>
+        <n-button @click="handleSearch" tertiary size="large" class="btn">search</n-button>
       </div>
       <div class="wrap-add-btn">
         <n-tooltip placement="bottom" trigger="hover">
@@ -36,6 +41,8 @@
           :options="formatedCategories"
           placeholder="Filter by category"
           @update:value="handleCategorySelect"
+          clearable
+
         />
       </div>
     </div>
@@ -52,11 +59,11 @@
 
 <script setup>
 import {
-  AddCircle,
   AddOutline,
-  AddSharp,
   CashOutline as CashIcon,
+  Close
 } from "@vicons/ionicons5";
+import Blogs from "~/components/Home/Blogs.vue";
 
 definePageMeta({
   layout: "custom",
@@ -67,6 +74,8 @@ const page = ref(1);
 const pageCount = ref(100);
 const selectedCategory = ref(null);
 const blogWithPages = ref({});
+const search = ref("");
+const isShowClearIcon = ref(false)
 
 const router = useRouter();
 const { categories, fetchCategories } = useFetchCategories();
@@ -95,6 +104,17 @@ const handlePageCount = () => {
   }
 };
 
+const handleSearch = () => {
+  blogStore.fetchBlogs(page.value, search.value)
+  isShowClearIcon.value = true;
+}
+
+const handleClear = () => {
+  search.value = ""
+  blogStore.fetchBlogs(page.value)
+  isShowClearIcon.value = false;
+} 
+
 const handleAddBlog = () => {
   router.push("/blogs/add");
 };
@@ -102,7 +122,12 @@ const handleAddBlog = () => {
 const handlePageChange = () => {};
 
 const handleCategorySelect = (value) => {
-  blogStore.fetchBlogsByCategory(value);
+ 
+  if(value && value != "") {
+    blogStore.fetchBlogsByCategory(value);
+  } else {
+    blogStore.fetchBlogs(page)
+  }
 };
 </script>
 
@@ -112,10 +137,13 @@ const handleCategorySelect = (value) => {
     display: flex;
     justify-content: space-between;
     .search {
-      // width: 300px;
       .input {
         width: 300px;
         margin: 30px 5px 20px 50px;
+        .close{
+          cursor: pointer;
+
+        }
       }
       .btn {
         background-color: $btn-bg;

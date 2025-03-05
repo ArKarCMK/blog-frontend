@@ -15,11 +15,11 @@
               </n-carousel>
             </div>
             <div class="body">
-              <n-h2>{{ blog.title }}</n-h2>
+              <n-h2>{{ fixedBlog.title }}</n-h2>
               <n-p>{{ fixedBlog.fixedBody }}</n-p>
             </div>
             <div class="btn">
-              <n-button>
+              <n-button @click="$router.push(`/blogs/${fixedBlog.id}`)">
                 <n-icon size="30" color="#000">
                   <CaretForwardOutline />
                 </n-icon>
@@ -44,34 +44,17 @@ const blog = ref({});
 onMounted(async () => {
   await blogStore.fetchPopularBlog();
 });
-console.log("Popular", blogStore.popularBlog);
-
-// const fixedBlog = computed(() => {
-//   const blogBody = blog.value.body || "";
-//   return {
-//     ...blog.value,
-//     fixedBody:
-//       blogBody.length > 300 ? blogBody.substring(0, 300) + " ...." : blogBody,
-//   };
-// });
 
 const fixedBlog = computed(() => {
   const blogBody = blogStore.popularBlog.body || "";
+  const cleanBlog =  blogBody.replace(/<[^>]+>/g, "").trim()
   return {
     ...blogStore.popularBlog,
     fixedBody:
-      blogBody.length > 300 ? blogBody.substring(0, 300) + " ...." : blogBody,
+      cleanBlog.length > 300 ? cleanBlog.substring(0, 300) + " ...." : cleanBlog,
   };
 });
 
-// const fetchBlog = async () => {
-//   try {
-//     const response = await axios.get(`${config.public.baseURL}/blogs/popular`);
-//     blog.value = response.data;
-//   } catch (error) {
-//     console.log("Error in the popular blogs", error);
-//   }
-// };
 </script>
 
 <style lang="scss" scoped>

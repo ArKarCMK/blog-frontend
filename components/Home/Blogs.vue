@@ -1,39 +1,37 @@
 <template>
   <div class="blog-container">
     <n-card title="Blogs" size="medium">
-      <n-grid cols="1 s:2 m:3" responsive="screen" x-gap="12">
-        <n-grid-item v-for="blog in fixedBlogs" :key="blog.id">
-          <!-- <div v-for="blog in fixedBlogs" :key="blog.id"> -->
-          <n-card style="margin-bottom: 10px" hoverable>
-            <div class="blog">
-              <div class="image">
-                <img
-                  src="../../assets/image.png"
-                  width="300"
-                  height="200"
-                  alt=""
-                />
-              </div>
-              <div class="body">
-                <h2>{{ blog.title }}</h2>
-                <p>
-                  {{ blog.limtedBody }}
-                </p>
-              </div>
-              <div class="button">
-                <n-button
-                  @click="$router.push(`/blogs/${blog.id}`)"
-                  tertiary
-                  class="btn"
-                  >Read More</n-button
-                >
-              </div>
+          <div class="blog-wrapper">
+            <div v-for="blog in fixedBlogs" :key="blog.id">
+              <n-card style="margin-bottom: 10px" class="blog-card" hoverable>
+                <div class="blog">
+                  <div class="image">
+                    <img
+                      src="../../assets/image.png"
+                      width="300"
+                      height="200"
+                      alt=""
+                    />
+                  </div>
+                  <div class="body">
+                    <h2>{{ blog.title }}</h2>
+                    <p>
+                      {{ blog.limtedBody }}
+                    </p>
+                  </div>
+                  <div class="button">
+                    <n-button
+                      @click="$router.push(`/blogs/${blog.id}`)"
+                      tertiary
+                      class="btn"
+                      >Read More</n-button
+                    >
+                  </div>
+                </div>
+              </n-card>
             </div>
-          </n-card>
-          <!-- </div> -->
-        </n-grid-item>
-      </n-grid>
-    </n-card>
+        </div>
+      </n-card>
   </div>
 </template>
 <script setup>
@@ -78,43 +76,46 @@ const fixedBlogs = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+
 .blog-container {
   width: calc(100% - 100px);
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  .blog {
-    position: relative;
-    width: 400px;
-
-    height: 400px;
-    flex-direction: column;
-    .image {
-      display: flex;
-      justify-content: center;
+  .blog-wrapper{
+    display:flex;
+    flex-wrap: wrap;
+    .blog-card{
+      margin-right: 20px;
+      width:360px;
+      height: 430px;
+    .blog {
+        .image {
+          display: flex;
+          justify-content: center;
+        }
+        .body {
+          padding: 0 10px;
+        }
+        .button {
+          display: flex;
+          justify-content: space-between;
+          display: flex;
+          position: absolute;
+          bottom: 0;
+          margin: 0 0 16px 10px;
+          .btn {
+            background: $btn-bg;
+            color: $btn-text;
+          }
+        }
+      } 
     }
-    .body {
-      padding: 0 10px;
-    }
-    .button {
-      display: flex;
-      justify-content: space-between;
-      display: flex;
-      position: absolute;
-      bottom: 0;
-      margin: 0 0 5px 10px;
-
-      .btn {
-        background: $btn-bg;
-        color: $btn-text;
-      }
-    }
+    
   }
 
-  .side-bar {
-    height: 399px;
-    width: 400px;
-    background: #fff;
-  }
+  // .side-bar {
+  //   height: 399px;
+  //   width: 400px;
+  //   background: #fff;
+  // }
 }
 </style>

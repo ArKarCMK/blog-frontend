@@ -1,13 +1,11 @@
 <template>
   <div class="blog-container" v-if="auth.isLoggedIn">
     <n-card title="My Blogs" size="medium">
-      <!-- <n-grid cols="1 s:3 m:3" responsive="screen" x-gap="12">
-        <n-grid-item v-for="blog in fixedBlogs" :key="blog.id"> -->
-      <n-grid :cols="cols" responsive="screen" x-gap="12">
-        <n-grid-item v-for="blog in fixedBlogs" :key="blog.id">
+      <div class="blog-wrapper">
+        <div v-for="blog in fixedBlogs" :key="blog.id">
           <n-card
-            style="margin-bottom: 10px; display: flex; align-items: center"
             hoverable
+            class="blog-card"
           >
             <div class="blog">
               <div class="image">
@@ -21,16 +19,19 @@
               <div class="body">
                 <h2>{{ blog.title }}</h2>
                 <p>
-                  {{ blog.limtedBody }}
+                  {{ blog.limitedBody }}
                 </p>
               </div>
               <div class="button">
-                <n-button
-                  @click="$router.push(`/blogs/${blog.id}`)"
-                  tertiary
-                  class="btn"
-                  >Read More</n-button
-                >
+                <div>
+                    <n-button
+                    @click="$router.push(`/blogs/${blog.id}`)"
+                    tertiary
+                    class="btn"
+                    >Read More</n-button
+                  >
+                </div>
+                
                 <div class="edit-and-del">
                   <n-button
                     quaternary
@@ -58,9 +59,8 @@
               </div>
             </div>
           </n-card>
-          <!-- </div> -->
-        </n-grid-item>
-      </n-grid>
+        </div>
+      </div>
     </n-card>
   </div>
 </template>
@@ -91,9 +91,11 @@ onMounted(async () => {
 const fixedBlogs = computed(() => {
   return blogStore.userBlogs
     .map((blog) => {
+      blog.body = blog.body.replace(/<[^>]+>/g, "").trim();
+
       return {
         ...blog,
-        limtedBody:
+        limitedBody:
           blog.body.length > 100
             ? blog.body.substring(0, 100) + " ..."
             : blog.body,
@@ -117,40 +119,44 @@ const handleDelete = async (blogId) => {
 .blog-container {
   width: calc(100% - 320px);
   margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  /* justify-content: center; */
-  .blog {
-    width: 330px;
-    height: 400px;
-    .image {
-      display: flex;
-      justify-content: center;
-    }
-    .body {
-      padding: 0 4px;
-    }
-    .button {
-      display: flex;
-      justify-content: space-between;
-      /* background: teal; */
-      padding-top: 20px;
-      /* display: flex; */
-      /* position: absolute;
-      bottom: 0;
-      margin: 0 0 5px 10px; */
+  .blog-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    .blog-card{
+      margin: 0 16px 16px 0;
+      width: 360px;
+      height: 430px;
+      .blog {
+        width: 330px;
+        height: 400px;
+        .image {
+          display: flex;
+          justify-content: center;
+        }
+        .body {
+          padding: 0 4px;
+        }
+        
+        .button {
+          .btn {
+            position: absolute;
+            bottom: 0;
+            background: $btn-bg;
+            color: $btn-text;
+            margin: 0 0 20px 0;
 
-      .btn {
-        background: $btn-bg;
-        color: $btn-text;
+          }
+          .edit-and-del{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            margin: 0 10px 20px 0;
+          }
+        }
+        
       }
     }
   }
 
-  .side-bar {
-    height: 399px;
-    width: 400px;
-    background: #fff;
-  }
 }
 </style>

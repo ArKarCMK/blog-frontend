@@ -60,8 +60,9 @@ const handleLogout = async () => {
 
 <style lang="scss" scoped>
 .container {
+  margin-right: 10px;
   .n-card {
-    max-width: 300px;
+    max-width: 360px;
     height: calc(100vh - 200px);
 
     .card-container {
@@ -95,7 +96,8 @@ const handleLogout = async () => {
         }
       }
       .logout {
-        padding-bottom: 20px;
+        margin: 60px auto;
+        background-color: red;
       }
     }
   }
