@@ -1,7 +1,8 @@
 <template>
   <div class="container">
-    <div class="img">
-      <img src="~/assets/image.png" width="600px" height="400" alt="" />
+    <div v-if="blog.image" class="img">
+ 
+      <img :src="blog.image" width="600px" height="400" alt="" />
     </div>
     <div class="content">
       <div class="title">
@@ -61,6 +62,7 @@ watch(
 );
 
 const handleSubscribeToggle = async(blogId) => {
+  console.log('image', props.blog)
   const res =  await blogStore.toggleSubscribe(blogId)
   if(!res.error.value) { 
     isSubscribed.value = !isSubscribed.value

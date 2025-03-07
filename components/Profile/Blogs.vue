@@ -9,12 +9,24 @@
           >
             <div class="blog">
               <div class="image">
-                <img
-                  src="../../assets/image.png"
+                <div v-if="blog.image">
+                  <img
+                  :src="blog.image"
                   width="300"
                   height="200"
                   alt=""
-                />
+                  />
+                  
+                </div>
+                <div v-else>
+                  
+                  <img
+                  src="../../assets/no-image.png"
+                  width="300"
+                  height="200"
+                  />
+                </div>
+                
               </div>
               <div class="body">
                 <h2>{{ blog.title }}</h2>

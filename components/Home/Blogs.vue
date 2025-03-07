@@ -6,12 +6,22 @@
               <n-card style="margin-bottom: 10px" class="blog-card" hoverable>
                 <div class="blog">
                   <div class="image">
-                    <img
-                      src="../../assets/image.png"
-                      width="300"
-                      height="200"
-                      alt=""
-                    />
+                    <div v-if="blog.image">
+                      <img
+                        :src="blog.image"
+                        width="300"
+                        height="200"
+                        alt=""
+                      />
+                    </div>
+                    <div v-else>
+                      <img
+                        src="../../assets/no-image.png"
+                        width="300"
+                        height="200"
+                        alt=""
+                      />
+                    </div>
                   </div>
                   <div class="body">
                     <h2>{{ blog.title }}</h2>
@@ -111,11 +121,6 @@ const fixedBlogs = computed(() => {
     }
     
   }
-
-  // .side-bar {
-  //   height: 399px;
-  //   width: 400px;
-  //   background: #fff;
-  // }
+ 
 }
 </style>

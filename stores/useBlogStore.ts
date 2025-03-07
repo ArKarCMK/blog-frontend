@@ -91,7 +91,7 @@ export const useBlogStore = defineStore("blogStore", {
 
     async editBlog(blogId: number, blog: Blog) {
       const res = await useApiFetch(`/api/blogs/${blogId}/edit`, {
-        method: "PUT",
+        method: "POST",
         body: blog,
       });
 

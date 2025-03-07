@@ -2,6 +2,14 @@
   <div class="wrapper">
     <div class="container">
       <h2>{{ mode }} Blog</h2>
+      <div class="image">
+        <n-upload
+        v-model:file-list="fileList"
+        list-type="image-card"
+        @change="handleImageUpload"
+        :max="1"
+        />
+      </div>
       <div class="title">
         <div class="title-label">Blog Title</div>
         <n-input
@@ -42,21 +50,20 @@
 </template>
 
 <script setup>
-import { ForumRound } from "@vicons/material";
 
-// const title = ref("");
-// const content = ref("");
+
+const fileList = ref([
+        
+      ])
 
 const selectedCategory = ref(null);
-const show = ref("false");
 const form = ref({
   user_id: "",
   title: "",
-  slug: "",
   category_id: null,
   body: "",
+  image: null,
 });
-const successMessage = ref("");
 
 const { categories, fetchCategories } = useFetchCategories();
 const router = useRouter();
@@ -79,6 +86,12 @@ watch(
     form.value.title = newValue.title;
     selectedCategory.value = newValue.category_id;
     form.value.body = newValue.body;
+    fileList.value= [{
+      id: '1',
+      name: 'image.jpg',
+      url: newValue.image,
+      status:'finished'
+    }]
   },
 );
 
@@ -90,13 +103,6 @@ const formatedCategories = computed(() => {
   }));
 });
 
-watch(
-  () => form.value.title,
-  (newVal) => {
-    form.value.slug = newVal.replaceAll(" ", "-").toLowerCase();
-  },
-);
-
 const updateContent = (newContent) => {
   form.value.body = newContent;
 };
@@ -104,12 +110,25 @@ const updateContent = (newContent) => {
 const handleCategorySelect = (value) => {
   form.value.category_id = value;
 };
+
 const handleCancel = () => {
   router.back();
 };
+
 const handleSave = async () => {
-  emits("handleDataSave", form.value);
+      const blogData = {
+      title: form.value.title || props.originalBlog.title,
+      category_id: form.value.category_id || props.originalBlog.category_id,
+      body: form.value.body || props.originalBlog.body,
+      image: form.value.image || props.originalBlog?.image || null,
+    };
+    emits("handleDataSave", blogData);
+  
 };
+
+const handleImageUpload = (file) => {
+  form.value.image = file.file.file;    
+}
 </script>
 
 <style lang="scss" scoped>
