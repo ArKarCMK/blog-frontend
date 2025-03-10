@@ -62,7 +62,6 @@ watch(
 );
 
 const handleSubscribeToggle = async(blogId) => {
-  console.log('image', props.blog)
   const res =  await blogStore.toggleSubscribe(blogId)
   if(!res.error.value) { 
     isSubscribed.value = !isSubscribed.value

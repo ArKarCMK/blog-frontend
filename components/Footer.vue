@@ -13,7 +13,7 @@
             <div class="first-column">
               <nuxt-link class="link" to="/home"> Home </nuxt-link>
               <nuxt-link class="link" to="/blogs"> Blogs </nuxt-link>
-              <nuxt-link class="link" to="/about"> About </nuxt-link>
+              <nuxt-link class="link" to="/profile"> Profile</nuxt-link>
             </div>
             <n-divider vertical class="divider" />
             <div class="second-column">
