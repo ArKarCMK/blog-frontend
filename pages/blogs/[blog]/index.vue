@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <SuccessMessage :message="successMessage" />
     <div class="wrap-bar">
       <div class="title">
         <n-button @click="$router.push('/blogs')" quaternary circle type="info">

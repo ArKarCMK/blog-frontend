@@ -39,6 +39,11 @@
             Login
           </n-button>
         </div>
+        <div class="register-wrapper">
+          <div class="text">Don't have an account yet? </div>
+          <nuxt-link to="/auth/register" class="link">Create an account</nuxt-link>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -99,7 +104,6 @@ const handleClick = async () => {
   .container {
     width: 100%;
     height: 100vh;
-    // background: red;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -129,6 +133,16 @@ const handleClick = async () => {
           background: green;
           border-radius: 5px;
           color: #fff;
+        }
+      }
+      .register-wrapper {
+        margin-top: 25px;
+        display: flex;
+        justify-content: center;
+        .link{
+          margin: 0 10px;
+          color: $link-hover;
+          cursor: pointer;
         }
       }
     }

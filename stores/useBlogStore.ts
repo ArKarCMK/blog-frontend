@@ -12,19 +12,19 @@ export const useBlogStore = defineStore("blogStore", {
   }),
 
   actions: {
-    async fetchBlogs(page: number, search: string) {
+    async fetchBlogs(page: number, search: string, category: number) {
       try {
-        let response;
-        if(search && search.trim() !== "") {
-          console.log("Search from Blog Store: ", search)
-         response = await axios.get<any>(
-          `${this.config.public.baseURL}/blogs/all?page=${page}&search=${search}`
-        )
-        } else {
-          response = await axios.get<any>(
-          `${this.config.public.baseURL}/blogs/all?page=${page}`
-        );
+        const params: any = {page};
+        if(search && search.trim() !== ""){
+          params.search = search;
         }
+        if(category && category != null) {
+          params.category = category
+        }
+        
+        const  response = await axios.get<any>(
+          `${this.config.public.baseURL}/blogs/all`, {params}
+        );
         this.blogsWithPage = [];
         this.blogsWithPage = response.data;
         this.blogs = response.data.data;
@@ -75,18 +75,6 @@ export const useBlogStore = defineStore("blogStore", {
       }
     },
 
-    async fetchBlogsByCategory(categoryId: number) {
-      try {
-        const res = await axios.get(
-          `${this.config.public.baseURL}/blogs/category/${categoryId}`,
-        );
-        this.blogs.length = 0;
-        this.blogs = res.data;
-      } catch (error) {
-        console.log("Error in fetching blogs", error);
-      }
-    },
-
     async addBlog(blog: any) {
       const res = await useApiFetch(`/api/blogs/store`, {
         method: "POST",
@@ -103,7 +91,7 @@ export const useBlogStore = defineStore("blogStore", {
 
     async editBlog(blogId: number, blog: Blog) {
       const res = await useApiFetch(`/api/blogs/${blogId}/edit`, {
-        method: "PUT",
+        method: "POST",
         body: blog,
       });
 

@@ -23,6 +23,34 @@
         {{ formatTime }}
       </div>
     </div>
+    <div v-if="blog.user?.id === auth.user?.id">
+        <div class="edit-and-del">
+          <n-button
+            quaternary
+            circle
+            type="success"
+            size="large"
+            @click="$router.push(`/blogs/${blog.id}/edit`)"
+          >
+            <template #icon>
+              <n-icon><EditFilled /></n-icon>
+            </template>
+          </n-button>
+          <n-button
+            quaternary
+            circle
+            type="error"
+            size="large"
+            @click="handleDelete(blog.id)"
+          >
+            <template #icon>
+              <n-icon><DeleteForeverRound /></n-icon>
+            </template>
+          </n-button>
+        </div>
+
+    </div>
+
     <div class="social">
       <div class="caption">Share this post</div>
       <div class="platform">
@@ -45,7 +73,11 @@
 
 <script setup>
 import { formatDistanceToNow } from "date-fns";
-
+import { EditFilled, DeleteForeverRound } from "@vicons/material";
+import { Router } from "@vicons/tabler";
+const auth = useAuthStore()
+const blogStore = useBlogStore()
+const router = useRouter()
 const props = defineProps({
   blog: {
     type: Object,
@@ -63,6 +95,15 @@ const formatTime = computed(() => {
     addSuffix: true,
   });
 });
+
+const handleDelete = async (blogId) => {
+  const res = await blogStore.deleteBlog(blogId);
+
+  if (!res.error.value) {
+    router.back()
+    
+  }
+};
 </script>
 
 <style lang="scss" scoped>
